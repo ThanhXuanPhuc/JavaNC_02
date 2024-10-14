@@ -17,7 +17,7 @@ public class DatabaseUtil {
             //1. Nạp driver
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             //2. Thiết lập kết nối CSDL
-           conn = DriverManager.getConnection("jdbc:sqlserver://pc317;databaseName=demodb", "sa", "sa");
+           conn = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-DMC6CNQ;databaseName=demodb", "sa", "sa");
         } catch (Exception e){
             System.out.println("Loi: " + e.toString());
         }

@@ -47,7 +47,7 @@ public class ViewServlet extends HttpServlet {
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
                 //System.out.println("Nap driver OK");
                 //2.Thiết lập kết nối CSDL
-                conn = DriverManager.getConnection("jdbc:sqlserver://pc317;databaseName=demodb", "sa", "sa");
+                conn = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-DMC6CNQ;databaseName=demodb", "sa", "sa");
                 //System.out.println("Ket noi OK");
                 //3. Tạo đối tượng thi hành truy vấn
                 ps = conn.prepareStatement("select * from users");               
@@ -74,10 +74,7 @@ public class ViewServlet extends HttpServlet {
                 System.out.println("Loi:" + e.toString());
                 out.println("<h2> Thêm user thất bại </h2>");
             }
-            //chèn nội dung của trang index.html
-            request.getRequestDispatcher("index.html").include(request, response);
-            
-            
+                       
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");

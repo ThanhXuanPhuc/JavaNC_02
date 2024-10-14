@@ -49,7 +49,7 @@ public class SaveServlet extends HttpServlet {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             //System.out.println("Nap driver OK");
             //2.Thiết lập kết nối CSDL
-            conn = DriverManager.getConnection("jdbc:sqlserver://pc317;databaseName=demodb", "sa", "sa");
+            conn = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-DMC6CNQ;databaseName=demodb", "sa", "sa");
             //System.out.println("Ket noi OK");
             //3. Tạo đối tượng thi hành truy vána
             ps = conn.prepareStatement("insert into users(name,password, email, country) values(?,?,?,?)");

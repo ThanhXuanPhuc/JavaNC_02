@@ -64,19 +64,8 @@ public class DeleteServlet extends HttpServlet {
                 out.println("<h2>Thao tác Xoá user thất bại </h2>");
             }
             //chèn nội dung của trang index.html
-            request.getRequestDispatcher("index.html").include(request, response);
-            
-            
-            
-            
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet DeleteServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("</body>");
-            out.println("</html>");
+            request.getRequestDispatcher("ViewServlet").include(request, response);
+
         }
     }
 
