@@ -34,30 +34,26 @@ public class EditServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            
             String method = request.getMethod();
-            System.out.println("method: " + method);
-            
-            if (method.equalsIgnoreCase("get")) { 
-            //b1. lấy giá trị tham số từ client
+            System.out.println("method" + method);
+            if (method.equalsIgnoreCase("get")) {
                 String id = request.getParameter("id");
-            //b2. Xử lý yêu cầu (truy cập CSDL để xoá user theo id)
                 Connection conn = null;
                 PreparedStatement ps = null;
                 ResultSet rs = null;
                 try {
-                    String country = rs.getString(5);
                     conn = DatabaseUtil.getConnection();
-                    // System.out.println("Ket noi OK");
-                    //3.Tạo đối tượng thi hành truy vấn
+                // System.out.println("Ket noi OK");
+                //3.Tạo đối tượng thi hành truy vấn
                     ps = conn.prepareStatement("select * from users where id=" + id);
-                    //truyền giá trị cho các tham số trong câu lệnh SQL
-                    // ps.setInt(1, Integer.parseInt(id));
-                    //4.Thi hành truy vấn
+                //truyền giá trị cho các tham số trong câu lệnh SQL
+                // ps.setInt(1, Integer.parseInt(id));
+                //4.Thi hành truy vấn
                     rs = ps.executeQuery();
-                    //5.Xu ly ket qua tra ve
+                //5.Xu ly ket qua tra ve
                     if (rs.next()) {
                         /* TODO output your page here. You may use following sample code. */
+                        String country = rs.getString(5); // Giả sử cột quốc gia là cột thứ 5
                         out.println("<!DOCTYPE html>");
                         out.println("<html>");
                         out.println("<head>");
@@ -84,10 +80,10 @@ public class EditServlet extends HttpServlet {
                                 + "<td>Country</td>"
                                 + "<td>"
                                 + "<select name='country'>"
-                                + " <option value='Vietnam' "+ (country.equals("Vietnam")? "selected":"") +">Vietnam</option>"
-                                + " <option value='USA' "+ (country.equals("USA")? "selected":"") +">USA</option>"
-                                + " <option value='UK' "+ (country.equals("UK")? "selected":"") +">UK</option>"
-                                + " <option value='Other'>Other</option>"
+                                + " <option value='Vietnam' " + (country.equals("'VietNam") ? "selected" : "") + ">Vietnam</option>"
+                                + " <option value='USA'  " + (country.equals("'USA") ? "selected" : "") + ">USA</option>"
+                                + " <option value='UK'  " + (country.equals("'UK") ? "selected" : "") + ">UK</option>"
+                                + " <option value='Other' " + (country.equals("'Other") ? "selected" : "") + ">Other</option>"
                                 + "</select>"
                                 + "</td>"
                                 + "</tr>"
@@ -99,55 +95,62 @@ public class EditServlet extends HttpServlet {
                         out.println("</body>");
                         out.println("</html>");
                     }
-            //6.dong ket noi
+                    //6.dong ket noi
                     conn.close();
                 } catch (Exception e) {
                     System.out.println("Loi:" + e.toString());
                     out.println("<h2>Thao tác xoá user thất bại</h2>");
                 }
-            //chèn nội dung của ViewServlet vào kết quả hồi đáp
-            // request.getRequestDispatcher("ViewServlet").include(request, response);
-            
             } else if (method.equalsIgnoreCase("post")) //xu ly theo method POST
             {
-            //b1. lấy giá trị tham số từ client
+                //b1. lấy giá trị tham số từ client
                 String uname = request.getParameter("uname");
                 String upass = request.getParameter("upass");
                 String email = request.getParameter("email");
                 String country = request.getParameter("country");
                 String id = request.getParameter("id");
-            //b2. Xử lý yêu cầu (truy cập CSDL để thêm mới user)
+                //b2. Xử lý yêu cầu (truy cập CSDL để thêm mới user)
                 Connection conn = null;
                 PreparedStatement ps = null;
                 try {
                     conn = DatabaseUtil.getConnection();
-            // System.out.println("Ket noi OK");
-            //3.Tạo đối tượng thi hành truy vấn
+                    // System.out.println("Ket noi OK");
+                    //3.Tạo đối tượng thi hành truy vấn
                     ps = conn.prepareStatement("update users set name=?, password=?,email=?, country=? where id=?");
-            //truyền giá trị cho các tham số trong câu lệnh SQL
+                    //truyền giá trị cho các tham số trong câu lệnh SQL
                     ps.setString(1, uname);
                     ps.setString(2, upass);
                     ps.setString(3, email);
                     ps.setString(4, country);
                     ps.setInt(5, Integer.parseInt(id));
-            //4.Thi hành truy vấn
+                    //4.Thi hành truy vấn
                     int kq = ps.executeUpdate();
-            //5.Xu ly ket qua tra ve
+                    //5.Xu ly ket qua tra ve
                     if (kq > 0) {
                         out.println("<h2>Cập nhật user thành công</h2>");
                     } else {
                         out.println("<h2>Cap nhat user thất bại</h2>");
 
                     }
-            //6.dong ket noi
+                    //6.dong ket noi
                     conn.close();
                 } catch (Exception e) {
                     System.out.println("Loi:" + e.toString());
                     out.println("<h2>Cap nhat user thất bại</h2>");
                 }
-            //chèn nội dung của ViewServlet vào kết quả phản hồi
+//chèn nội dung của ViewServlet vào kết quả phản hồi
                 request.getRequestDispatcher("ViewServlet").include(request, response);
             }
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet EditServlet</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet EditServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 
